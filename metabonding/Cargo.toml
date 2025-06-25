@@ -1,0 +1,37 @@
+[package]
+name = "metabonding"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2018"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.dharitri-sc]   #varsha#
+version = "=1.11.10"
+
+[dependencies.dharitri-sc-modules]
+version = "=1.11.10"
+
+# [dependencies.dharitri-sc]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/base"
+
+# [dependencies.dharitri-sc-modules]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/contracts/modules"
+
+[dependencies.sc_whitelist_module]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7/common/modules/sc_whitelist_module"
+
+[dev-dependencies]
+num-bigint = "0.4.2"
+num-traits = "0.2"
+hex = "0.4"
+hex-literal = "0.4.1"
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "=1.11.10"
+# [dev-dependencies.dharitri-sc-scenario]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/scenario"

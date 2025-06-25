@@ -1,0 +1,75 @@
+[package]
+name = "growth-program"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.dharitri-sc]   #varsha#
+version = "=1.11.10"
+features = ["dcdt-token-payment-legacy-decode"]
+
+[dependencies.dharitri-sc-modules]
+version = "=1.11.10"
+ 
+# [dependencies.dharitri-sc]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/base"
+# features = ["dcdt-token-payment-legacy-decode"]
+
+# [dependencies.dharitri-sc-modules]
+#  path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/contracts/modules"
+[dependencies.utils]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7/common/modules/utils"
+
+[dependencies.router]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7/dex/router"
+
+[dependencies.pair]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7/dex/pair"
+
+[dependencies.energy-query]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7/energy-integration/common-modules/energy-query"
+
+[dependencies.simple-lock]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7/locked-asset/simple-lock"
+
+[dependencies.energy-factory]
+#git = "https://github.com/TerraDharitri/drt-sc-exchange"
+#varsha rev=c061a85
+path = "/home/dugong/Desktop/teja-work/my_works/rs-repos-verified-completed/drt-sc-exchange-3.0.7/drt-sc-exchange-3.0.7//locked-asset/energy-factory"
+
+[dev-dependencies]
+num-bigint = "0.4.2"
+num-traits = "0.2"
+hex = "0.4"
+hex-literal = "0.4.1"
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "=1.11.10"
+
+[dev-dependencies.dharitri-sc-modules]
+version = "=1.11.10"
+# [dev-dependencies.dharitri-sc-scenario]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/scenario"
+
+# [dependencies.dharitri-sc-modules]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/contracts/modules"
+
+[dev-dependencies.pair-mock]
+path = "../pair-mock"
+
+[dev-dependencies.router-mock]
+path = "../router-mock"

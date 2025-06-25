@@ -1,0 +1,20 @@
+[package]
+name = "metabonding-meta"
+version = "0.0.0"
+edition = "2018"
+publish = false
+authors = ["contact@dharitri.org"]
+
+[dev-dependencies]
+
+[dependencies.metabonding]
+path = ".."
+
+[dependencies.dharitri-sc-meta]
+version = "=1.11.10"
+default-features = false
+
+
+# [dependencies.dharitri-sc-meta]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/meta"
+# default-features = false

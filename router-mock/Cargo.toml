@@ -1,0 +1,22 @@
+[package]
+name = "router-mock"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+publish = false
+
+[lib]
+path = "src/router_mock.rs"
+
+[dependencies.dharitri-sc]  #varsha#
+version = "=1.11.10"
+# [dependencies.dharitri-sc]
+# version = "=1.11.10"
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/base"
+[dev-dependencies]
+num-bigint = "0.4.2"
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "=1.11.10"
+# [dev-dependencies.dharitri-sc-scenario]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/scenario"

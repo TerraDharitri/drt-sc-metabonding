@@ -1,0 +1,920 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.79.0",
+            "commitHash": "129f3b9964af4d4a709d1383930ade12dfe7c081",
+            "commitDate": "2024-06-10",
+            "channel": "Stable",
+            "short": "rustc 1.79.0 (129f3b996 2024-06-10)"
+        },
+        "contractCrate": {
+            "name": "growth-program",
+            "version": "0.0.0",
+            "gitVersion": "v1.0.2-190-g05a3ba5"
+        },
+        "framework": {
+            "name": "dharitri-sc",
+            "version": "0.50.5"
+        }
+    },
+    "name": "GrowthProgram",
+    "constructor": {
+        "docs": [
+            "Arguments:",
+            "min_reward_dollars_per_energy is a value scaled to PRECISION*PRECISION.",
+            "For example, if the desired RDPE is that 10^18 units of energy give 10^{-15} dollars of rewards,",
+            "then we should provide the argument 10^{-15}*10^{-18}*PRECISION*PRECISION = 10^3.",
+            "",
+            "alpha: Percentage, scaled to MAX_PERCENTAGE const.",
+            "beta: Percentage, scaled to MAX_PERCENTAGE const."
+        ],
+        "inputs": [
+            {
+                "name": "min_reward_dollars_per_energy",
+                "type": "BigUint"
+            },
+            {
+                "name": "alpha",
+                "type": "BigUint"
+            },
+            {
+                "name": "beta",
+                "type": "BigUint"
+            },
+            {
+                "name": "router_address",
+                "type": "Address"
+            },
+            {
+                "name": "safe_price_pair",
+                "type": "Address"
+            },
+            {
+                "name": "energy_factory_address",
+                "type": "Address"
+            },
+            {
+                "name": "simple_lock_address",
+                "type": "Address"
+            },
+            {
+                "name": "fees_collector_address",
+                "type": "Address"
+            },
+            {
+                "name": "usdc_token_id",
+                "type": "TokenIdentifier"
+            },
+            {
+                "name": "wrewa_token_id",
+                "type": "TokenIdentifier"
+            }
+        ],
+        "outputs": []
+    },
+    "upgradeConstructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "addProject",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_owner",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "setProjectOwner",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "new_owner",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "pauseProject",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unpauseProject",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "isProjectActive",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "setMinRewardsPeriod",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nr_weeks",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setMinWeeklyRewardsValue",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "depositInitialRewards",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "end_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "signer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "depositAdditionalRewards",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "end_week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setFeesCollectorAddress",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "fees_collector_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "ownerWithdrawRewards",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "finishProgram",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "min_reward_dollars_per_energy is a value scaled to PRECISION*PRECISION.",
+                "For example, if the desired RDPE is that 10^18 units of energy give 10^{-15} dollars of rewards,",
+                "then we should provide the argument 10^{-15}*10^{-18}*PRECISION*PRECISION = 10^3."
+            ],
+            "name": "setMinRewardDollarsPerEnergy",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "min_value",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setFirstWeekApr",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "apr",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getInitialRdpe",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "setNextWeekRewardDollarsPerEnergy",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "rew_dollars_per_energy",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setAlpha",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "alpha",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setBeta",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "beta",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setTotalEnergyForCurrentWeek",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_ids",
+                    "type": "variadic<u32>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getTotalEnergyForCurrentWeek",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "claimRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "min_rewards",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "claim_type",
+                    "type": "ClaimType"
+                },
+                {
+                    "name": "opt_note_and_signature",
+                    "type": "optional<multi<bytes,array64<u8>>>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "optional<DcdtTokenPayment>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getExemptedParticipants",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<Address>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getUserClaimed",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "updateRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "opt_max_nr_weeks",
+                    "type": "optional<u32>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getRewardsInfo",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "RewardsInfo"
+                }
+            ]
+        },
+        {
+            "name": "getRewardsTotalAmount",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getRewardsRemainingAmount",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getNotesHistory",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<Note>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "changeSigner",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "new_signer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getSignaturePrefix",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Week starts from 1"
+            ],
+            "name": "getCurrentWeek",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getTimestampsStartAndEndOfWeek",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "week",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "StartEndWeekTimestampPair"
+                }
+            ]
+        },
+        {
+            "name": "getFirstWeekStartTimestamp",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "setEnergyFactoryAddress",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "sc_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getEnergyFactoryAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "pause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "unpause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "isPaused",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        }
+    ],
+    "events": [
+        {
+            "identifier": "claimRewardsEvent",
+            "inputs": [
+                {
+                    "name": "caller",
+                    "type": "Address",
+                    "indexed": true
+                },
+                {
+                    "name": "claim_data",
+                    "type": "ClaimRewardsEventData"
+                }
+            ]
+        },
+        {
+            "identifier": "addProjectEvent",
+            "inputs": [
+                {
+                    "name": "project_owner",
+                    "type": "Address",
+                    "indexed": true
+                },
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                }
+            ]
+        },
+        {
+            "identifier": "depositInitialRewardsEvent",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                },
+                {
+                    "name": "deposit_data",
+                    "type": "DepositInitialRewardsEventData"
+                }
+            ]
+        },
+        {
+            "identifier": "depositAdditionalRewardsEvent",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                },
+                {
+                    "name": "deposit_data",
+                    "type": "DepositAdditionalRewardsEventData"
+                }
+            ]
+        },
+        {
+            "identifier": "ownerWithdrawEvent",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                },
+                {
+                    "name": "withdraw_data",
+                    "type": "OwnerWithdrawEventData"
+                }
+            ]
+        },
+        {
+            "identifier": "changeSignerEvent",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                },
+                {
+                    "name": "new_signer",
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "identifier": "pauseProjectEvent",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                }
+            ]
+        },
+        {
+            "identifier": "unpauseProjectEvent",
+            "inputs": [
+                {
+                    "name": "project_id",
+                    "type": "u32",
+                    "indexed": true
+                }
+            ]
+        }
+    ],
+    "dcdtAttributes": [],
+    "hasCallback": false,
+    "types": {
+        "ClaimRewardsEventData": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "project_id",
+                    "type": "u32"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "claim_type",
+                    "type": "ClaimType"
+                }
+            ]
+        },
+        "ClaimType": {
+            "type": "enum",
+            "variants": [
+                {
+                    "name": "Exemption",
+                    "discriminant": 0
+                },
+                {
+                    "name": "Rewards",
+                    "discriminant": 1,
+                    "fields": [
+                        {
+                            "name": "0",
+                            "type": "LockOption"
+                        }
+                    ]
+                }
+            ]
+        },
+        "DepositAdditionalRewardsEventData": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "end_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "reward_payment",
+                    "type": "DcdtTokenPayment"
+                }
+            ]
+        },
+        "DepositInitialRewardsEventData": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "end_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "signer",
+                    "type": "Address"
+                },
+                {
+                    "name": "reward_payment",
+                    "type": "DcdtTokenPayment"
+                }
+            ]
+        },
+        "DcdtTokenPayment": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ]
+        },
+        "LockOption": {
+            "type": "enum",
+            "variants": [
+                {
+                    "name": "None",
+                    "discriminant": 0
+                },
+                {
+                    "name": "OneWeek",
+                    "discriminant": 1
+                },
+                {
+                    "name": "TwoWeeks",
+                    "discriminant": 2
+                }
+            ]
+        },
+        "Note": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "note_data",
+                    "type": "bytes"
+                },
+                {
+                    "name": "week",
+                    "type": "u32"
+                }
+            ]
+        },
+        "OwnerWithdrawEventData": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "total_withdraw_amount",
+                    "type": "BigUint"
+                }
+            ]
+        },
+        "RewardsInfo": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "reward_token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "undistributed_rewards",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "start_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "last_update_week",
+                    "type": "u32"
+                },
+                {
+                    "name": "end_week",
+                    "type": "u32"
+                }
+            ]
+        },
+        "StartEndWeekTimestampPair": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "start",
+                    "type": "u64"
+                },
+                {
+                    "name": "end",
+                    "type": "u64"
+                }
+            ]
+        }
+    }
+}

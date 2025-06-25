@@ -1,0 +1,58 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.79.0",
+            "commitHash": "129f3b9964af4d4a709d1383930ade12dfe7c081",
+            "commitDate": "2024-06-10",
+            "channel": "Stable",
+            "short": "rustc 1.79.0 (129f3b996 2024-06-10)"
+        },
+        "contractCrate": {
+            "name": "router-mock",
+            "version": "0.0.0",
+            "gitVersion": "v1.0.2-190-g05a3ba5"
+        },
+        "framework": {
+            "name": "dharitri-sc",
+            "version": "0.50.5"
+        }
+    },
+    "name": "RouterMock",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "pair_addr",
+                "type": "Address"
+            },
+            {
+                "name": "usdc_token_id",
+                "type": "TokenIdentifier"
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "getPair",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "first_token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "second_token_id",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        }
+    ],
+    "dcdtAttributes": [],
+    "hasCallback": false,
+    "types": {}
+}

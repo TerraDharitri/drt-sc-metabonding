@@ -1,0 +1,23 @@
+[package]
+name = "pair-mock"
+version = "0.0.0"
+authors = ["contact@dharitri.org"]
+edition = "2021"
+publish = false
+
+[lib]
+path = "src/pair.rs"
+
+[dependencies.dharitri-sc]   #varsha#
+version = "=1.11.10"
+features = ["dcdt-token-payment-legacy-decode"]
+
+[dev-dependencies.dharitri-sc-scenario]
+version = "=1.11.10"
+
+# [dependencies.dharitri-sc]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/base"
+# features = ["dcdt-token-payment-legacy-decode"]
+
+# [dev-dependencies.dharitri-sc-scenario]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/scenario"

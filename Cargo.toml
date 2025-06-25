@@ -1,0 +1,11 @@
+[workspace]
+members = [
+  "growth-program",
+  "growth-program/meta",
+  "metabonding",
+  "metabonding/meta",
+  "pair-mock",
+  "pair-mock/meta",
+  "router-mock",
+  "router-mock/meta"
+]

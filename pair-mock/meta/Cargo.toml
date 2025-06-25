@@ -1,0 +1,19 @@
+[package]
+name = "pair-mock-meta"
+version = "0.0.0"
+edition = "2021"
+publish = false
+authors = ["contact@dharitri.org"]
+
+[dev-dependencies]
+
+[dependencies.pair-mock]
+path = ".."
+
+[dependencies.dharitri-sc-meta]  #varsha#
+version = "=1.11.10"
+default-features = false
+
+# [dependencies.dharitri-sc-meta]
+# path = "/home/dugong/Desktop/teja-work/my_works/rs-sdks/drt-rs-sdk-0.50.5/framework/meta"
+# default-features = false
